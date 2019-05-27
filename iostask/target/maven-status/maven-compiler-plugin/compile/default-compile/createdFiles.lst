@@ -1,0 +1,15 @@
+com\zyjg\adtech\bigscreen\utils\HttpClientUtil.class
+com\zyjg\adtech\bigscreen\services\AllService.class
+com\zyjg\adtech\bigscreen\utils\DateUtil.class
+com\zyjg\adtech\bigscreen\services\impl\AllServiceImpl.class
+com\zyjg\adtech\bigscreen\config\JsonConfig$1.class
+com\zyjg\adtech\bigscreen\utils\StringUtil.class
+com\zyjg\adtech\bigscreen\entity\Iosptxfdd.class
+com\zyjg\adtech\bigscreen\BigscreenApplication.class
+com\zyjg\adtech\bigscreen\task\AsyncConfig.class
+com\zyjg\adtech\bigscreen\mapper\LogMapper.class
+com\zyjg\adtech\bigscreen\config\JsonConfig.class
+com\zyjg\adtech\bigscreen\task\Task.class
+com\zyjg\adtech\bigscreen\controller\TaskController.class
+com\zyjg\adtech\bigscreen\mapper\IosptxfddMapper.class
+com\zyjg\adtech\bigscreen\entity\Log.class

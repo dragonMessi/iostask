@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyjg.adtech.bigscreen.mapper.LogMapper" >
+  <resultMap id="BaseResultMap" type="com.zyjg.adtech.bigscreen.entity.Log" >
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="MESSAGE" property="message" jdbcType="VARCHAR" />
+    <result column="JLSJ" property="jlsj" jdbcType="DATE" />
+    <result column="ERROINFO" property="erroinfo" jdbcType="VARCHAR" />
+    <result column="ZT" property="zt" jdbcType="VARCHAR" />
+    <result column="METHYW" property="methyw" jdbcType="VARCHAR" />
+    <result column="METHZW" property="methzw" jdbcType="VARCHAR" />
+     <result column="ERROINFODETAIL" property="erroinfodetail" jdbcType="VARCHAR" />
+     <result column="DATA" property="data" jdbcType="VARCHAR" />
+     <result column="JSONXML" property="jsonXMl" jdbcType="VARCHAR" />
+      <result column="SJ" property="sj" jdbcType="VARCHAR" />
+      <result column="TOKEN" property="token" jdbcType="VARCHAR" />
+      <result column="YHID" property="yhid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.zyjg.adtech.bigscreen.entity.Log" >
+         <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+  		select SYS_GUID() as id from dual
+  	</selectKey>
+    insert into LOG (ID, MESSAGE, JLSJ, 
+      ERROINFO, ZT, METHYW, 
+      METHZW, ERROINFODETAIL, DATA,JSONXML,SJ,token,yhid
+      )
+    values (#{id,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, sysdate, 
+      #{erroinfo,jdbcType=VARCHAR}, #{zt,jdbcType=VARCHAR}, #{methyw,jdbcType=VARCHAR}, 
+      #{methzw,jdbcType=VARCHAR}, #{erroinfodetail,jdbcType=VARCHAR}, #{data,jdbcType=VARCHAR},
+      #{jsonXMl,jdbcType=VARCHAR},  #{sj,jdbcType=VARCHAR},#{token,jdbcType=VARCHAR},
+      #{yhid,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  
+  
+  <select id="loglimitCount"    resultType="java.lang.Integer" parameterType="java.util.Map" >
+    SELECT count(*)  FROM LOG r  WHERE   '1'='1'
+        <if test="log.zt!=null and log.zt!=''  "> 
+            AND r.zt=#{log.zt}
+       </if>
+       <if test="log.sj!=null and log.sj!=''  "> 
+            AND r.sj  like  '%${log.sj}%' 
+       </if>
+         
+     <if test="log.methyw!=null and log.methyw!=''"> 
+        AND r.METHYW  = #{log.methyw}
+     </if>
+  </select>
+   
+   <select id="loglimit"  resultMap="BaseResultMap" parameterType="java.util.Map"> 
+   SELECT * FROM (
+      SELECT A.*, ROWNUM RN FROM(
+    SELECT * FROM LOG R
+   WHERE   '1'='1'
+         <if test="log.zt!=null and log.zt!=''  "> 
+            AND r.zt=#{log.zt}
+       </if>
+          <if test="log.sj!=null and log.sj!=''  "> 
+             AND r.sj  like  '%${log.sj}%' 
+       </if>
+         
+     <if test="log.methyw!=null and log.methyw!=''"> 
+        AND r.METHYW  = #{log.methyw}
+     </if>
+     order by  R.SJ   DESC    
+    )A
+)
+WHERE RN BETWEEN  #{start}   AND #{end}  
+  </select>  
+  
+  
+  
+  <select id="getLogInfo"    resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT *  FROM LOG r  WHERE  id=#{id}
+  </select>
+  
+</mapper>

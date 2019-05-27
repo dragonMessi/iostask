@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyjg.adtech.bigscreen.mapper.IosptxfddMapper" >
+  <resultMap id="BaseResultMap" type="com.zyjg.adtech.bigscreen.entity.Iosptxfdd" >
+      <id column="ID" jdbcType="VARCHAR" property="id" />
+      <result column="YHID" jdbcType="VARCHAR" property="yhid" />
+      <result column="YHM" jdbcType="VARCHAR" property="yhm" />
+      <result column="SPDDBM" jdbcType="VARCHAR" property="spddbm" />
+      <result column="XHJBJG" jdbcType="VARCHAR" property="xhjbjg" />
+      <result column="SPMC" jdbcType="VARCHAR" property="spmc" />
+      <result column="BM" jdbcType="VARCHAR" property="bm" />
+      <result column="XHSJ" jdbcType="VARCHAR" property="xhsj" />
+      <result column="DDWCSJ" jdbcType="VARCHAR" property="ddwcsj" />
+      <result column="DDSCSJ" jdbcType="VARCHAR" property="ddscsj" />
+      <result column="ZT" jdbcType="VARCHAR" property="zt" />
+      <result column="LJ" jdbcType="VARCHAR" property="lj" />
+      <result column="YCLSL" jdbcType="VARCHAR" property="yclsl" />
+      <result column="SPSL" jdbcType="VARCHAR" property="spsl" />
+      <result column="LX" jdbcType="VARCHAR" property="lx" />
+      <result column="MTZYID" jdbcType="VARCHAR" property="mtzyId" />
+      <result column="MTZYCODE" jdbcType="VARCHAR" property="mtzyCode" />
+      <result column="MTZYLJ" jdbcType="VARCHAR" property="mtzylj" />
+      <result column="orderThird" jdbcType="VARCHAR" property="orderThird" />
+      <result column="api" jdbcType="VARCHAR" property="api" />
+      <result column="ddzxsj" jdbcType="VARCHAR" property="ddzxsj" />
+      <result column="LINK" jdbcType="VARCHAR" property="link" />
+  </resultMap>
+
+    <select id="getPtxfddInfoByZtAndYhid"  resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT * FROM  IOSPTXFDD WHERE ZT=#{zt}  and LX=#{lx}
+        <if test="ids!=null">
+            ${ids}
+        </if>
+        order by DDSCSJ  DESC
+    </select>
+
+
+
+    <select id="getPtxfddInfoByZt"  resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT * FROM  IOSPTXFDD WHERE ZT=#{zt}
+        <if test="lx!=null">
+            AND  LX=#{lx}
+        </if>
+        order by DDSCSJ
+    </select>
+
+
+
+
+    <select id="getPtxfddInfoByYhid"  resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT * FROM  IOSPTXFDD WHERE YHID=#{userId}
+        AND BM=#{packageName}
+        order by DDSCSJ DESC
+    </select>
+
+
+
+    <select id="getPtxfddInfo"  resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT * FROM  IOSPTXFDD WHERE ID=#{id}
+    </select>
+
+    <select id="iosPtxfddlimitCount"    resultType="java.lang.Integer" parameterType="java.util.Map" >
+        SELECT count(*)  FROM IOSPTXFDD r  WHERE   '1'='1'
+        <if test="iosPtxfdd.ddscsj!=null and iosPtxfdd.ddscsj!=''  ">
+            AND r.ddscsj >= #{iosPtxfdd.ddscsj}
+        </if>
+        <if test="iosPtxfdd.ddwcsj!=null and iosPtxfdd.ddwcsj!=''  ">
+            AND r.ddwcsj >= #{iosPtxfdd.ddwcsj}
+        </if>
+
+        <if test="iosPtxfdd.bm!=null and iosPtxfdd.bm!=''">
+            AND r.bm  like  '%${iosPtxfdd.bm}%'
+        </if>
+        <if test="iosPtxfdd.zt!=null and iosPtxfdd.zt!=''">
+            AND r.zt=#{iosPtxfdd.zt}
+        </if>
+        <if test="iosPtxfdd.yhm!=null and iosPtxfdd.yhm!=''">
+            AND r.yhm  like  '%${iosPtxfdd.yhm}%'
+        </if>
+        <if test="iosPtxfdd.yhid!=null and iosPtxfdd.yhid!=''">
+            AND r.yhid  like  '%${iosPtxfdd.yhid}%'
+        </if>
+
+
+    </select>
+
+    <select id="iosPtxfddlimit"  resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT * FROM (
+        SELECT A.*, ROWNUM RN FROM(
+        SELECT * FROM IOSPTXFDD R
+        WHERE   '1'='1'
+        <if test="iosPtxfdd.ddscsj!=null and iosPtxfdd.ddscsj!=''  ">
+            AND r.ddscsj >= #{iosPtxfdd.ddscsj}
+        </if>
+        <if test="iosPtxfdd.ddwcsj!=null and iosPtxfdd.ddwcsj!=''  ">
+            AND r.ddwcsj >= #{iosPtxfdd.ddwcsj}
+        </if>
+
+        <if test="iosPtxfdd.bm!=null and iosPtxfdd.bm!=''">
+            AND r.bm  like  '%${iosPtxfdd.bm}%'
+        </if>
+        <if test="iosPtxfdd.zt!=null and iosPtxfdd.zt!=''">
+            AND r.zt=#{iosPtxfdd.zt}
+        </if>
+        <if test="iosPtxfdd.yhm!=null and iosPtxfdd.yhm!=''">
+            AND r.yhm  like  '%${iosPtxfdd.yhm}%'
+        </if>
+        <if test="iosPtxfdd.yhid!=null and iosPtxfdd.yhid!=''">
+            AND r.yhid  like  '%${iosPtxfdd.yhid}%'
+        </if>
+        order by  R.ddscsj   DESC
+        )A
+        )
+        WHERE RN BETWEEN  #{start}   AND #{end}
+    </select>
+    <insert id="insert" parameterType="com.zyjg.adtech.bigscreen.entity.Iosptxfdd" >
+        <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+            select SYS_GUID() as id from dual
+        </selectKey>
+        insert into  IOSPTXFDD (ID, YHID, YHM,
+        SPDDBM, XHJBJG, SPMC,
+        BM, XHSJ, DDSCSJ, DDWCSJ,
+        ZT, LJ,LX,MTZYID,MTZYCODE,MTZYLJ,orderThird,spsl,api,ddzxsj,LINK
+        )
+        values (#{id,jdbcType=VARCHAR}, #{yhid,jdbcType=VARCHAR}, #{yhm,jdbcType=VARCHAR},
+        #{spddbm,jdbcType=VARCHAR}, #{xhjbjg,jdbcType=VARCHAR}, #{spmc,jdbcType=VARCHAR},
+        #{bm,jdbcType=VARCHAR}, #{xhsj,jdbcType=VARCHAR}, #{ddscsj,jdbcType=VARCHAR}, #{ddwcsj,jdbcType=VARCHAR},
+        #{zt,jdbcType=VARCHAR}, #{lj,jdbcType=VARCHAR},#{lx,jdbcType=VARCHAR},#{mtzyId,jdbcType=VARCHAR},#{mtzyCode,jdbcType=VARCHAR},#{mtzylj,jdbcType=VARCHAR},
+        #{orderThird,jdbcType=VARCHAR},#{spsl,jdbcType=VARCHAR},#{api,jdbcType=VARCHAR},#{ddzxsj,jdbcType=VARCHAR},#{link,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.zyjg.adtech.bigscreen.entity.Iosptxfdd" >
+        update  IOSPTXFDD
+        <set >
+            <if test="yhid != null" >
+                YHID = #{yhid,jdbcType=VARCHAR},
+            </if>
+            <if test="yhm != null" >
+                YHM = #{yhm,jdbcType=VARCHAR},
+            </if>
+            <if test="spddbm != null" >
+                SPDDBM = #{spddbm,jdbcType=VARCHAR},
+            </if>
+            <if test="xhjbjg != null" >
+                XHJBJG = #{xhjbjg,jdbcType=VARCHAR},
+            </if>
+            <if test="spmc != null" >
+                SPMC = #{spmc,jdbcType=VARCHAR},
+            </if>
+            <if test="bm != null" >
+                BM = #{bm,jdbcType=VARCHAR},
+            </if>
+            <if test="xhsj != null" >
+                XHSJ = #{xhsj,jdbcType=VARCHAR},
+            </if>
+            <if test="ddscsj != null" >
+                DDSCSJ = #{ddscsj,jdbcType=VARCHAR},
+            </if>
+            <if test="ddwcsj != null" >
+                DDWCSJ = #{ddwcsj,jdbcType=VARCHAR},
+            </if>
+
+            <if test="spsl != null" >
+                spsl = #{spsl,jdbcType=VARCHAR},
+            </if>
+
+            <if test="api != null" >
+                api = #{api,jdbcType=VARCHAR},
+            </if>
+            <if test="zt != null" >
+                ZT = #{zt,jdbcType=VARCHAR},
+            </if>
+            <if test="lj != null" >
+                LJ = #{lj,jdbcType=VARCHAR},
+            </if>
+            <if test="lx != null" >
+                lx = #{lx,jdbcType=VARCHAR},
+            </if>
+            <if test="mtzyId != null" >
+                mtzyId = #{mtzyId,jdbcType=VARCHAR},
+            </if>
+            <if test="mtzyCode != null" >
+                mtzyCode = #{mtzyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="mtzylj != null" >
+                mtzylj = #{mtzylj,jdbcType=VARCHAR},
+            </if>
+            <if test="orderThird != null" >
+                orderThird = #{orderThird,jdbcType=VARCHAR},
+            </if>
+            <if test="ddzxsj != null" >
+                ddzxsj = #{ddzxsj,jdbcType=VARCHAR},
+            </if>
+            <if test="link != null" >
+                link = #{link,jdbcType=VARCHAR},
+            </if>
+
+
+        </set>
+        where ID = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete"  parameterType="java.lang.String">
+        DELETE  FROM  IOSPTXFDD WHERE YHID=#{yhid}
+    </delete>
+
+
+
+    <select id="getPtxfddByZt"  resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT  *  FROM IOSPTXFDD WHERE ZT=#{dcl}
+        <if test="jxz != null" >
+            OR ZT=#{jxz}
+        </if>
+
+        <if test="userId != null" >
+            AND YHID=#{userId}
+        </if>
+        order by  ddscsj   DESC
+    </select>
+
+
+
+    <select id="getPtxfddByZtTwo"  resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT  *  FROM IOSPTXFDD WHERE  (ZT=#{dcl}
+        OR ZT=#{jxz})
+        AND YHID=#{userId}
+        order by  ddscsj   DESC
+    </select>
+
+
+
+
+    <select id="getSetupScrollLabelInfo"  resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT * FROM (
+        SELECT A.*, ROWNUM RN FROM(
+        SELECT * FROM IOSPTXFDD R
+        WHERE   '1'='1'
+        and   ZT=#{dcl}
+        order by  R.ddscsj   DESC
+        )A
+        )
+        WHERE RN BETWEEN  0   AND  200
+    </select>
+
+
+
+    <select id="versionTwoSetupScrollLabelInfo"  resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT * FROM (
+      SELECT A.*, ROWNUM RN FROM(
+    SELECT * FROM IOSPTXFDD R
+   WHERE   '1'='1'
+   and   ZT=#{dcl}
+     order by  R.ddscsj   DESC
+    )A
+)
+WHERE RN BETWEEN  0   AND  50
+  </select>
+
+</mapper>

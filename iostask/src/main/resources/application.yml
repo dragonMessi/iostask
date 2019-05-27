@@ -1,0 +1,27 @@
+server:
+  port: 9032
+
+
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+  profiles:
+    active: dev
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+
+
+#sso登录地址
+ssoServiceLogin:
+#sso ticket验证地址
+ssoValidateTicket:
+#登录成功跳转地址
+successUrl:
+
+sessionTimeout: 1800
